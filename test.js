@@ -38,18 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 var AWS = require("aws-sdk");
-// class MyResponse{
-//     statusCode: number
-//     body: string
-//     headers: object
-//     constructor(statusCode: number, obody: object) {
-//         this.headers = {
-//             'Content-Type': 'application/json'
-//         }
-//         this.statusCode = statusCode    
-//         this.body = JSON.stringify(obody)
-//     }
-// }
 function buildResponse(statusCode, obody) {
     return {
         headers: {
@@ -64,7 +52,6 @@ AWS.config.update({
 });
 var dynamoDB = new AWS.DynamoDB.DocumentClient();
 var dynamoDBTab = "people_at_company";
-var alivePath = "/alive";
 var peoplePath = "/people";
 var personPath = "/person";
 function getPerson(personId) {
@@ -224,10 +211,6 @@ var handler = function (event, context) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    if (event.path === alivePath && event.httpMethod === 'GET') {
-                        response = buildResponse(200, { condition: "alive" });
-                        return [2 /*return*/, response];
-                    }
                     if (!(event.path === peoplePath && event.httpMethod === 'GET')) return [3 /*break*/, 2];
                     return [4 /*yield*/, getPeople()];
                 case 1:
@@ -248,16 +231,11 @@ var handler = function (event, context) {
                         case 'PATCH': return [3 /*break*/, 10];
                     }
                     return [3 /*break*/, 12];
-                case 4: return [4 /*yield*/, deletePerson(personId)
-                    // let body = {input: event, personId: personId}
-                    // response = buildResponse(202, body)
-                ];
+                case 4: return [4 /*yield*/, deletePerson(personId)];
                 case 5:
                     // let body = {input: event}
                     // response = buildResponse(202, body)
                     response = _b.sent();
-                    // let body = {input: event, personId: personId}
-                    // response = buildResponse(202, body)
                     return [3 /*break*/, 12];
                 case 6: return [4 /*yield*/, getPerson(personId)
                     // response = await getPerson(JSON.parse(event.body).personId)

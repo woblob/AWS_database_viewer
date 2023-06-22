@@ -1,19 +1,5 @@
 const AWS = require("aws-sdk")
 
-// class MyResponse{
-//     statusCode: number
-//     body: string
-//     headers: object
-
-//     constructor(statusCode: number, obody: object) {
-//         this.headers = {
-//             'Content-Type': 'application/json'
-//         }
-//         this.statusCode = statusCode    
-//         this.body = JSON.stringify(obody)
-//     }
-// }
-
 function buildResponse(statusCode, obody){
     return {
         headers: {
@@ -30,7 +16,6 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient()
 const dynamoDBTab = "people_at_company"
-const alivePath = "/alive"
 const peoplePath = "/people"
 const personPath = "/person"
 
@@ -149,11 +134,6 @@ async function deletePerson(personId) {
 
 export const handler = async function(event, context) {
     let response
-
-    if (event.path === alivePath && event.httpMethod === 'GET'){
-        response = buildResponse(200, {condition: "alive"})
-        return response
-    }
 
     if (event.path === peoplePath && event.httpMethod === 'GET'){
         response = await getPeople()
